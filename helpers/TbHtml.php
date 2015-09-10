@@ -5045,4 +5045,30 @@ EOD;
         }
         return implode(' ', array_unique($colClasses));
     }
+
+    /**
+     * Generates a file field input.
+     * @param string $name the input name.
+     * @param string $value the input value.
+     * @param array $htmlOptions additional HTML attributes.
+     * @return string the generated input field.
+     * @see CHtml::fileField
+     */
+    public static function fileFieldEx($name, $value = '', $htmlOptions = array())
+    {
+        $path = Yii::getPathOfAlias('application.protected.assets') . DS . 'bootstrap.file-input.js';
+        $url = Yii::app()->assetManager->publish($path , false, -1);
+        /** @var CClientScript $cs */
+        $cs = Yii::app()->getClientScript();
+        $cs->registerScriptFile($url);
+        $output = '<span class="btn btn-default btn-file">';
+        if ($value !== '') {
+            $output .= $value . ' ';
+        }
+        $output .= parent::fileField($name, $value, $htmlOptions);
+        $output .= '</span>';
+        return $output;
+        /** @var CAssetManager $url */
+
+    }
 }
